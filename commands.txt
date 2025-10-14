@@ -1,49 +1,9 @@
-[ req ]
-default_bits       = 2048
-prompt             = no
-default_md         = sha256
-distinguished_name = dn
-req_extensions     = req_ext
+' OR 1=1 --
 
-[ dn ]
-C  = FR
-ST = Bretagne
-L  = Vannes
-O  = Company
-CN = sirh.histo.company.lan
+sudo git clone https://github.com/coreruleset/coreruleset /etc/modsecurity/crs
 
-[ req_ext ]
-subjectAltName = @alt_names
-keyUsage = digitalSignature, keyEncipherment
-extendedKeyUsage = serverAuth
-
-[ alt_names ]
-DNS.1 = sirh.histo.company.lan
-
-
-openssl req -new -nodes \
--newkey rsa:2048 \
--keyout sirh.key \
--out sirh.csr \
--config openssl.cnf
-
-
-openssl req -in sirh.csr -noout -text
-
-
-ipa cert-request sirh.csr --principal=HTTP/sirh.histo.company.lan --certificate-out=sirh.crt
-
-
-sudo cp sirh.crt /etc/ssl/certs/
-sudo cp sirh.key /etc/ssl/private/
-
-
-<VirtualHost *:443>
-    ServerName sirh.histo.company.lan
-    SSLEngine on
-    SSLCertificateFile /etc/ssl/certs/sirh.crt
-    SSLCertificateKeyFile /etc/ssl/private/sirh.key
-    ProxyPass / http://10.16.3.1/
-    ProxyPassReverse / http://10.16.3.1/
-</VirtualHost>
-
+<IfModule security2_module>
+    SecRuleEngine On
+    IncludeOptional /etc/modsecurity/crs/crs-setup.conf
+    IncludeOptional /etc/modsecurity/crs/rules/*.conf
+</IfModule>
