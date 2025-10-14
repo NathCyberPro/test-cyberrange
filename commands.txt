@@ -1,5 +1,7 @@
 ' OR 1=1 --
 
+IncludeOptional /etc/modsecurity/*.conf
+
 sudo git clone https://github.com/coreruleset/coreruleset /etc/modsecurity/crs
 
 <IfModule security2_module>
