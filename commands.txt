@@ -1,0 +1,8 @@
+sudo nano /etc/apache2/sites-available/sirh.conf
+
+<VirtualHost *:80>
+    ServerName sirh.histo.company.lan
+    ProxyPreserveHost On
+    ProxyPass / http://10.16.3.1/
+    ProxyPassReverse / http://10.16.3.1/
+</VirtualHost>
