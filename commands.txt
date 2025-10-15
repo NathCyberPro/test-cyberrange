@@ -1,3 +1,40 @@
+ipa user-add admin1 --first=Admin --last=One --password
+ipa user-add admin2 --first=Admin --last=Two --password
+ipa user-add john --first=John --last=Doe --password
+ipa user-add doe --first=Doe --last=Smith --password
+
+ipa group-add usergroup_admin --desc="Groupe des administrateurs"
+ipa group-add usergroup_users --desc="Groupe des utilisateurs"
+
+ipa group-add-member usergroup_admin --users=admin1,admin2
+ipa group-add-member usergroup_users --users=admin1,admin2,john,doe
+
+ipa hostgroup-add hostgroup_sto --desc="Zone stockage"
+ipa hostgroup-add hostgroup_fede --desc="Zone fédération"
+ipa hostgroup-add hostgroup_sup --desc="Zone supervision"
+ipa hostgroup-add hostgroup_admin --desc="Postes d'administration"
+ipa hostgroup-add hostgroup_identity --desc="Serveur FreeIPA"
+ipa hostgroup-add hostgroup_users --desc="Postes utilisateurs"
+
+
+sudo apt install freeipa-client
+
+sudo ipa-client-install \
+  --mkhomedir \
+  --server=freeipa.identity.company.lan \
+  --domain=company.lan \
+  --realm=COMPANY.LAN
+
+ipa hostgroup-add-member hostgroup_fede --hosts=rproxy.fede.company.lan,dns.fede.company.lan
+ipa hostgroup-add-member hostgroup_identity --hosts=freeipa.identity.company.lan
+ipa hostgroup-add-member hostgroup_admin --hosts=pc-admin-1.company.lan,pc-admin-2.company.lan
+ipa hostgroup-add-member hostgroup_users --hosts=pc-user-1.company.lan
+ipa hostgroup-add-member hostgroup_sto --hosts=nas.sto.company.lan,s3.sto.company.lan
+
+
+
+
+--------------------------WAF------------------------------
 ' OR 1=1 --
 
 IncludeOptional /etc/modsecurity/*.conf
