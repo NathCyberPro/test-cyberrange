@@ -1,3 +1,15 @@
+{
+  "policies": {
+    "Proxy": {
+      "Mode": "manual",
+      "HTTPProxy": "proxy.fede.company.lan:3128",
+      "UseHTTPProxyForAllProtocols": true,
+      "Passthrough": "10.1.1.254"
+    }
+  }
+}
+
+
 Acquire::http::Proxy "http://proxy.fede.company.lan:3128";
 Acquire::https::Proxy "https://proxy.fede.company.lan:3128";
 
