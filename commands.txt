@@ -9,3 +9,7 @@ sudo git clone https://github.com/coreruleset/coreruleset /etc/modsecurity/crs
     IncludeOptional /etc/modsecurity/crs/crs-setup.conf
     IncludeOptional /etc/modsecurity/crs/rules/*.conf
 </IfModule>
+
+
+SecRule ARGS "@rx (?i)(\bor\b|\band\b).*(=|--)" \
+    "id:'900001',phase:2,deny,status:403,msg:'Tentative d\'injection SQL détectée'"
