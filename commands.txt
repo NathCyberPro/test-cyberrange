@@ -4,6 +4,10 @@ Acquire::https::Proxy "https://proxy.fede.company.lan:3128";
 export http_proxy="http://proxy.fede.company.lan:3128"
 export https_proxy="http://proxy.fede.company.lan:3128"
 
+proxy=http://proxy.fede.company.lan:3128
+proxy_username=
+proxy_password=
+
 
 ipa user-add admin1 --first=Admin --last=One --password
 ipa user-add admin2 --first=Admin --last=Two --password
