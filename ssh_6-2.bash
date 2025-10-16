@@ -1,3 +1,25 @@
+# Sur la CA :
+ssh-keygen -f ~/.ssh/ssh_ca -C "CA SSH" -N "password"
+# Sur le client :
+ssh-keygen -f ~/.ssh/clientkey -C "clé client SSH" -N "ceci est une passphrase ssh"
+
+# Transfert clé publique -> CA (placé sur le client)
+scp ~/.ssh/clientkey.pub freeipa.identity.company.lan:/tmp/
+
+# Signer la clé publique (sur la CA)
+ssh-keygen -s ~/.ssh/ssh_ca -I user_lade -n lade -V +2w /tmp/clientkey.pub
+
+# Sur la CA
+scp /tmp/clientkey-cert.pub pc-admin-1.admin.company.lan:~/.ssh/
+scp ~/.ssh/ssh_ca.pub proxy.fede.company.lan:/etc/ssh/CAKey.pub
+
+# Sur le proxy Dans /etc/ssh/sshd_config, ajoute :
+TrustedUserCAKeys /etc/ssh/CAKey.pub
+systemctl restart sshd
+
+
+
+==========================================
 ----- Sur la machine CA (ex. admin1) -----
 # Générer la clé de l'autorité
 ssh-keygen -f /etc/ssh/ssh_ca -N "" -C "SSH CA"
