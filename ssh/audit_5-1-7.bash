@@ -1,5 +1,6 @@
-# Modifier le fichier /etc/ssh/sshd_config pour définir les deux paramètres avant tout bloc Include ou Match :
-ClientAliveInterval 15
-ClientAliveCountMax 3
-# Cela provoque la déconnexion d’un client SSH non réactif après environ 45 secondes.
-sudo systemctl reload sshd
+# Que les deux paramètres sont bien définis et ont des valeurs strictement supérieures à zéro :
+sshd -T | grep -Pi -- '(clientaliveinterval|clientalivecountmax)'
+
+# exemple attendu
+clientaliveinterval 15
+clientalivecountmax 3
