@@ -1,7 +1,7 @@
 # Sur la CA :
 ssh-keygen -f ~/.ssh/ssh_ca -C "CA SSH" -N "password"
 # Sur le client :
-ssh-keygen -f ~/.ssh/clientkey -C "clé client SSH" -N "ceci est une passphrase ssh"
+ssh-keygen -f ~/.ssh/clientkey -C "clé client SSH" -N "password"
 
 # Transfert clé publique -> CA (placé sur le client)
 scp ~/.ssh/clientkey.pub freeipa.identity.company.lan:/tmp/
