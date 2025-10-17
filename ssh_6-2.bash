@@ -1,3 +1,21 @@
+# Configuration sur serveur (en tant que root)
+## Sur la CA
+ssh-keygen -t ed25519 -a 100 -f ssh_users_ed25519_key
+cp ssh_users_ed25519_key /etc/ssh/
+scp ssh_users_ed25519_key.pub admin1@proxy.fede.company.lan:/tmp
+scp ssh_users_ed25519_key.pub lade@freeipa.identity.company.lan:/tmp
+## Sur le serveur (proxy)
+mv /tmp/ssh_users_ed25519_key.pub /etc/ssh
+nano /etc/ssh/sshd_config
+    TrustedUserCAKeys /etc/ssh/ssh_users_ed25519_key.pub
+systemctl reload sshd
+
+# Configuration du client
+## Sur freeipa
+mv /tmp/ssh_users_ed25519_key.pub /etc/ssh
+ssh-keygen -s /etc/ssh/ssh_users_ed25519_key -I lade@proxy.fede.company.lan -n lade -V +365d id_ed25519.pub
+scp id_ed25519.pub lade@pc-admin-2.admin.company.lan:/home/lade/.ssh/
+------------------------------
 # Sur la CA :
 ssh-keygen -f ~/.ssh/ssh_ca -C "CA SSH" -N "password"
 # Sur le client :
