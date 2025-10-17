@@ -11,6 +11,9 @@ nano /etc/ssh/sshd_config
 systemctl reload sshd
 
 # Configuration du client
+## Sur le client (admin2)
+ssh-keygen -f ~/.ssh/clientkey -C "clé client SSH" -N "password"
+scp clientkey lade@freeipa.identity.company.lan:/etc/ssh
 ## Sur freeipa
 mv /tmp/ssh_users_ed25519_key.pub /etc/ssh
 ssh-keygen -s /etc/ssh/ssh_users_ed25519_key -I lade@proxy.fede.company.lan -n lade -V +365d id_ed25519.pub
